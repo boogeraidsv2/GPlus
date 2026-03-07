@@ -162,24 +162,34 @@ class ProfileDetails : Hook(
         }
 
         findClass(distanceUtils).hook("c", HookStage.AFTER) { param ->
+            val isAbbreviated = param.arg<Boolean>(0)
             val distance = param.arg<Double>(1)
-            // val isAbbreviated = param.arg<Boolean>(3)
-            val isFeet = param.arg<Boolean>(2)
+            val isImperial = param.arg<Boolean>(2)
 
             param.setResult(
-                if (isFeet) {
+                if (isImperial) {
                     val feet = (distance * 3.280839895).roundToInt()
                     if (feet < 5280) {
-                        String.format("%d feet", feet)
+                        if (isAbbreviated) "%d ft".format(feet)
+                        else "%d %s".format(feet, if (feet == 1) "foot" else "feet")
                     } else {
-                        String.format("%d miles %d feet", feet / 5280, feet % 5280)
+                        val miles = feet / 5280
+                        val remainingFeet = feet % 5280
+                        if (isAbbreviated) "%d mi %d ft".format(miles, remainingFeet)
+                        else "%d %s %d %s".format(
+                            miles, if (miles == 1) "mile" else "miles",
+                            remainingFeet, if (remainingFeet == 1) "foot" else "feet"
+                        )
                     }
                 } else {
                     val meters = distance.roundToInt()
                     if (meters < 1000) {
-                        String.format("%d meters", meters)
+                        if (isAbbreviated) "%d m".format(meters)
+                        else "%d %s".format(meters, if (meters == 1) "meter" else "meters")
                     } else {
-                        String.format("%d km %d m", meters / 1000, meters % 1000)
+                        val km = meters / 1000
+                        val remainingMeters = meters % 1000
+                        "%d km %d m".format(km, remainingMeters)
                     }
                 }
             )
