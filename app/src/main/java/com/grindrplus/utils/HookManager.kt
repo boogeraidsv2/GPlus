@@ -14,6 +14,7 @@ import com.grindrplus.hooks.DisableShuffle
 import com.grindrplus.hooks.DisableUpdates
 import com.grindrplus.hooks.EmptyCalls
 import com.grindrplus.hooks.EnableUnlimited
+import com.grindrplus.hooks.EnhanceViewedMe
 import com.grindrplus.hooks.ExpiringMedia
 import com.grindrplus.hooks.FeatureGranting
 import com.grindrplus.hooks.LocalSavedPhrases
@@ -51,6 +52,7 @@ class HookManager {
                 DisableUpdates(),
                 EmptyCalls(),
                 EnableUnlimited(),
+                EnhanceViewedMe(),
                 ExpiringMedia(),
                 FeatureGranting(),
                 LocalSavedPhrases(),
